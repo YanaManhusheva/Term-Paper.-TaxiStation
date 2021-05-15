@@ -21,7 +21,7 @@ namespace TaxiLibrary.BusData
             }
             return JourneyCost;
         }
-        public abstract void CreateDriver();
+        public abstract void CreateDriver(List<int> hours, int Time);
         public virtual decimal DriverSalary()
         {
             decimal salary = 10000;
@@ -38,9 +38,14 @@ namespace TaxiLibrary.BusData
         public Bus(string _type) : base(_type)
         {
         }
-        public override void CreateDriver()
+        public override void CreateDriver(List<int> hours, int Time)
         {
-            man = new Ferryman("Oleg", 38, 199);
+            if (Time == hours[0])
+                man = new Ferryman("Sasha", 24, 160);
+            else
+                man = new Ferryman("Oleg", 39, 200);
+
+
         }
         public override decimal DriverSalary()
         {
@@ -67,10 +72,12 @@ namespace TaxiLibrary.BusData
         {
         }
 
-        public override void CreateDriver()
+        public override void CreateDriver(List<int> hours, int Time)
         {
-            man = new Ferryman("Sahsa", 29, 112);
-
+            if (Time == hours[0])
+                man = new Ferryman("Nazar", 29, 174);
+            else
+                man = new Ferryman("Ivan", 48, 110);
         }
         public override decimal DriverSalary()
         {

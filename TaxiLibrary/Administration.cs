@@ -80,26 +80,6 @@ namespace TaxiLibrary
             Console.ResetColor();
         }
 
-        public decimal DriverInfo()
-        {
-            decimal salary;
-            if (newTransp is Bus)
-            {
-                newTransp.CreateDriver();
-                salary = newTransp.DriverSalary();
-    
-            }
-            else
-            {
-                newTransp.CreateDriver();
-                salary = newTransp.DriverSalary();
-                           
-            }
-
-            return salary;
-            
-        }
-
         public enum WeekDays 
         {
             Monday,
@@ -160,10 +140,9 @@ namespace TaxiLibrary
             }
             return day;
         }
-        //TODO : duration from file (you drive 3 h)
         public List<int> ChooseTime()
         {
-            List<int> hours = new List<int>();
+            //List<int> hours = new List<int>();
             switch (day)
             {
                 case WeekDays.Monday:
@@ -189,6 +168,25 @@ namespace TaxiLibrary
                     break;
             }
             return hours.ToList();
+        }
+        List<int> hours = new List<int>();
+        public decimal DriverInfo()
+        {
+            
+            decimal salary;
+            if (newTransp is Bus)
+            {
+                newTransp.CreateDriver(hours, Time);
+                salary = newTransp.DriverSalary();
+            }
+            else
+            {
+                newTransp.CreateDriver(hours, Time);
+                salary = newTransp.DriverSalary();
+            }
+
+            return salary;
+
         }
         public void SetTime(int time)
         {

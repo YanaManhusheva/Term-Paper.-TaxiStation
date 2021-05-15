@@ -244,14 +244,6 @@ namespace TaxiApplicatiom
 
             }
         }
-        private static void ShowInfo(Ferryman man, Administration administration)
-        {
-            Console.WriteLine($"Your driver Name : {man.Name}");
-            Console.WriteLine($"Age : {man.Age}");
-            Console.WriteLine($"Working hours : {man.WorkHours}");
-            Console.WriteLine($"Salary : {administration.DriverInfo()}");
-
-        }
         private static void ChooseDate(Administration administration)
         {
             Console.WriteLine("Enter the appropriate for you day(from 1 to 7):" +
@@ -290,7 +282,14 @@ namespace TaxiApplicatiom
             Console.WriteLine($"You choose {time}");
             administration.SetTime(time);
         }
+        private static void ShowInfo(Ferryman man, Administration administration)
+        {
+            Console.WriteLine($"Your driver Name : {man.Name}");
+            Console.WriteLine($"Age : {man.Age}");
+            Console.WriteLine($"Working hours : {man.WorkHours}");
+            Console.WriteLine($"Salary : {administration.DriverInfo()}");
 
+        }
         private static void Ticket(Administration administration)
         {
             Thread.Sleep(3000);
