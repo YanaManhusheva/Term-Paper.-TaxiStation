@@ -22,7 +22,8 @@ namespace TaxiApplicatiom
                 Console.WriteLine("====================Menu==========================");
                 Console.WriteLine("Choose what you want to do:" +
                     "\n1)Buy a ticket" +
-                    "\n2)Exit" +
+                    "\n2)Watch routes" +
+                    "\n3)Exit" +
                     "\n==================================================");
 
                 Administration administration;
@@ -51,7 +52,7 @@ namespace TaxiApplicatiom
                                 DriverInfo(administration);
                                 Ticket(administration);
                                 con = true;
-                                Console.WriteLine("Do you wanna watch menu for other options?1)yes 2)false");
+                                Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
                                 int choice = int.Parse(Console.ReadLine());
                                 if (choice < 1 || choice > 2)
                                 {
@@ -60,6 +61,7 @@ namespace TaxiApplicatiom
                                 if (choice == 1)
                                     next = false;
                                 else
+                                    Console.WriteLine("\nWe are looking forward for you!");
                                     next = true;
 
                             }
@@ -84,6 +86,24 @@ namespace TaxiApplicatiom
                         }
                         break;
                     case 2:
+                        Dictionary<string, double> dict = new Dictionary<string, double>();
+                        int ind = 1;
+                        using (var sr = new StreamReader("Route.txt"))
+                        {
+                            while (!sr.EndOfStream)
+                            {
+                                string[] temp = sr.ReadLine().Split();
+                                dict.Add(temp[0], double.Parse(temp[1]));
+                            }
+                        }
+
+                        foreach (KeyValuePair<string, double> keyValue in dict)
+                        {
+                            Console.WriteLine($"{ind}) " + keyValue.Key + " - " + keyValue.Value);
+                            ind++;
+                        }
+                        break;
+                    case 3:
                         Console.WriteLine("Thank you for choosing us");
                         next = true;
                         break;
@@ -172,13 +192,11 @@ namespace TaxiApplicatiom
                 while (!sr.EndOfStream)
                 {
                     string[] temp = sr.ReadLine().Split();
-                    //if (temp.Length != 3)
-                    //    throw new ArgumentException("Invalid file!");
                     dict.Add(temp[0], double.Parse(temp[1]));
                     dict2.Add(temp[0], double.Parse(temp[2]));
                 }
             }
-            //TODO: static prop dict str - dur
+            
 
             foreach (KeyValuePair<string, double> keyValue in dict)
             {

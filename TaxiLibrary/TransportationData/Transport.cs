@@ -44,8 +44,6 @@ namespace TaxiLibrary.BusData
                 man = new Ferryman("Sasha", 24, 160);
             else
                 man = new Ferryman("Oleg", 39, 200);
-
-
         }
         public override decimal DriverSalary()
         {

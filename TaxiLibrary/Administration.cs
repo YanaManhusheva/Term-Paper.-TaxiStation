@@ -142,7 +142,7 @@ namespace TaxiLibrary
         }
         public List<int> ChooseTime()
         {
-            //List<int> hours = new List<int>();
+            hours = new List<int>();
             switch (day)
             {
                 case WeekDays.Monday:
@@ -169,10 +169,8 @@ namespace TaxiLibrary
             }
             return hours.ToList();
         }
-        List<int> hours = new List<int>();
         public decimal DriverInfo()
         {
-            
             decimal salary;
             if (newTransp is Bus)
             {
@@ -206,6 +204,7 @@ namespace TaxiLibrary
         public int Time { get; private set; }
         public double Price { get; private set; }
         public string Name { get; private set; }
+        protected List<int> hours ;
     }
 }
 
