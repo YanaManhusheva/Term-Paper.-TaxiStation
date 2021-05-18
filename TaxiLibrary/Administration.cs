@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using TaxiLibrary.TransportationData;
 using TaxiLibrary.BusData;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace TaxiLibrary
 {
@@ -12,16 +14,32 @@ namespace TaxiLibrary
     {
         New,
         Registered,
-        Permanent
+        Permanent,
+        Admin
     }
     public enum TransportType
     {
         Bus,
         Minivan
     }
+    public enum WeekDays
+    {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday
+    }
+
 
     public class Administration
-    { 
+    {
+        static Administration()
+        {
+            men = FerrymanDataFile();
+        }
         public Administration(string name)
         {
             Name = name;
@@ -52,6 +70,21 @@ namespace TaxiLibrary
                     break;
             }
         }
+        public void CreateAccount(AccountType accountType, string name, string pass)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Null name argument!");
+            }
+            if (pass == "1708")
+            {
+                newAdmin = new AdminAccount(name);
+                IsAdmin = true;
+            }
+            else
+                throw new ArgumentException("Incorrect password");
+
+        }
         public void ChooseTransport(TransportType transportType)
         {
             switch (transportType)
@@ -61,7 +94,7 @@ namespace TaxiLibrary
                     break;
                 case TransportType.Minivan:
                     newTransp = new Minivan("<Reno Minivan>");
-                    break; 
+                    break;
             }
         }
         public void PayTickets(double distance)
@@ -80,24 +113,13 @@ namespace TaxiLibrary
             Console.ResetColor();
         }
 
-        public enum WeekDays 
-        {
-            Monday,
-            Tuesday,
-            Wednesday,
-            Thursday,
-            Friday,
-            Saturday,
-            Sunday
-        }
-        
         public WeekDays ChooseDate(int dateday)
         {
             if (dateday <= 0)
                 throw new ArgumentException("Incorrect input! Day must be a positive number");
-            if(newTransp is Bus)
+            if (newTransp is Bus)
             {
-                if(dateday%2 != 0)
+                if (dateday % 2 != 0)
                 {
                     switch (dateday)
                     {
@@ -133,7 +155,7 @@ namespace TaxiLibrary
                         case 6:
                             day = WeekDays.Saturday;
                             break;
-                    }    
+                    }
                 }
                 else
                     throw new ArgumentException("There is no such days");
@@ -195,8 +217,25 @@ namespace TaxiLibrary
             Duration = dur;
         }
 
-
+        private static List <Ferryman> FerrymanDataFile()
+        {
+            var formatter = new BinaryFormatter();
+            using (var fs = new FileStream("Ferryman.txt", FileMode.OpenOrCreate))
+            {
+                if(fs.Length != 0)
+                {
+                    if (formatter.Deserialize(fs) is List<Ferryman> men)
+                    {
+                        return men;
+                    }
+                }
+                return null;
+            }
+        }
+        
+        public AdminAccount newAdmin { get; private set; }
         public Account newAcc { get; private set; }
+        public bool IsAdmin { get; private set; }=false;
         public Transport newTransp { get; private set; }
         public double Duration { get; private set; }
         public double JourneyDistance { get; private set; }
@@ -205,6 +244,8 @@ namespace TaxiLibrary
         public double Price { get; private set; }
         public string Name { get; private set; }
         protected List<int> hours ;
+        static public List<Ferryman> men { get; private set; }
     }
+    
 }
 

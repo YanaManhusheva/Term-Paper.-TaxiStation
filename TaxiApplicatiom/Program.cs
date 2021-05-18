@@ -8,14 +8,30 @@ using System.Threading.Tasks;
 using TaxiLibrary;
 using TaxiLibrary.BusData;
 using TaxiLibrary.TransportationData;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TaxiApplicatiom
 {
     class Program
     {
-         public delegate void MyDelegate(Ferryman man,Administration administration);
+        public delegate void MyDelegate(Ferryman man,Administration administration);
         static void Main(string[] args)
         {
+            //List<Ferryman> men = new List<Ferryman>();
+            //men.Add(new Ferryman("Sasha", 24, 160));
+            //men.Add(new Ferryman("Oleg", 39, 200));
+            //men.Add(new Ferryman("Nazar", 29, 174));
+            //men.Add(new Ferryman("Ivan", 48, 110));
+            //foreach (var man in men)
+            //{
+            //    man.CalculateSalary();
+            //}
+            //var formatter = new BinaryFormatter();
+            //using (var fs = new FileStream("Ferryman.txt", FileMode.OpenOrCreate))
+            //{
+            //    formatter.Serialize(fs, men);
+            //}
+
             bool next = false;
             while (!next)
             {
@@ -46,24 +62,109 @@ namespace TaxiApplicatiom
                             try
                             {
                                 OrganizeJourney(administration);
-                                ObtainTransport(administration);
-                                ChooseDate(administration);
-                                BuyTickets(administration);
-                                DriverInfo(administration);
-                                Ticket(administration);
-                                con = true;
-                                Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
-                                int choice = int.Parse(Console.ReadLine());
-                                if (choice < 1 || choice > 2)
+                                if (!administration.IsAdmin)
                                 {
-                                    throw new ArgumentException("Write the correct option!");
+                                    ObtainTransport(administration);
+                                    ChooseDate(administration);
+                                    BuyTickets(administration);
+                                    DriverInfo(administration);
+                                    Ticket(administration);
+                                    con = true;
+                                    Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
+                                    int choice = int.Parse(Console.ReadLine());
+                                    if (choice < 1 || choice > 2)
+                                    {
+                                        throw new ArgumentException("Write the correct option!");
+                                    }
+                                    else if (choice == 1)
+                                        next = false;
+                                    else
+                                    {
+                                        Console.WriteLine("\nWe are looking forward to you!");
+                                        next = true;
+                                    }
                                 }
-                                if (choice == 1)
-                                    next = false;
                                 else
-                                    Console.WriteLine("\nWe are looking forward for you!");
-                                    next = true;
+                                {
+                                    con = false;
+                                    while (! con)
+                                    {
+                                        try
+                                        {
+                                            AdminMenu();
+                                            string enter = Console.ReadLine();
+                                            int num = 0;
+                                            bool correct = int.TryParse(enter, out num);
+                                            if (!correct)
+                                                throw new ArgumentException("The choice must be a number!");
+                                            if (num < 1 || num > 3)
+                                                throw new ArgumentException("Write the correct option!");
+                                            switch (num)
+                                            {
+                                                case 1:
+                                                    MenInfo();
+                                                    con = true;
+                                                    Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
+                                                    int choice = int.Parse(Console.ReadLine());
+                                                    if (choice < 1 || choice > 2)
+                                                    {
+                                                        throw new ArgumentException("Write the correct option!");
+                                                    }
+                                                    else if (choice == 1)
+                                                        con = false;
+                                                    else
+                                                    {
+                                                        Console.WriteLine("\nAdmin, we are waiting to you!");
+                                                        con = true;
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    TransportInfo();
 
+                                                    con = true;
+                                                    Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
+                                                    int choice = int.Parse(Console.ReadLine());
+                                                    if (choice < 1 || choice > 2)
+                                                    {
+                                                        throw new ArgumentException("Write the correct option!");
+                                                    }
+                                                    else if (choice == 1)
+                                                        con = false;
+                                                    else
+                                                    {
+                                                        Console.WriteLine("\nAdmin, we are waiting to you!");
+                                                        con = true;
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    WatchTimetables(administration);
+                                                    con = true;
+                                                    Console.WriteLine("Do you wanna watch menu for other options? 1)yes 2)false");
+                                                    int choice = int.Parse(Console.ReadLine());
+                                                    if (choice < 1 || choice > 2)
+                                                    {
+                                                        throw new ArgumentException("Write the correct option!");
+                                                    }
+                                                    else if (choice == 1)
+                                                        con = false;
+                                                    else
+                                                    {
+                                                        Console.WriteLine("\nAdmin, we are waiting to you!");
+                                                        con = true;
+                                                    }
+                                                    break;
+                                            }
+                                        catch
+                                        {
+
+                                        }
+                                    }
+                                   
+
+                                    
+                                    con = true;
+                                    next = true;
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -114,31 +215,40 @@ namespace TaxiApplicatiom
         {
             Console.WriteLine("We are greatfull to see you in our company");
             Console.WriteLine("To create your account please enter some data ");
-            Console.WriteLine("Enter your name:");
-            string name = Console.ReadLine();
-            Console.WriteLine("Enter your age:");
-            int age = int.Parse(Console.ReadLine());
-            if (age < 0 || age > 100)
-                throw new AgeException($"Entered age: {age} is incorrect" , age);
-            Console.WriteLine("Enter the sum:");
-            string str = Console.ReadLine();
-            double sum;
-            bool isNum = double.TryParse(str, out sum);
-            if (!isNum)
-            {
-                throw new ArgumentException("The sum must be a number!");
-            }
-            if (sum < 0)
-                throw new ArgumentException("The sum must be a positive number!");
-            Console.WriteLine("Are you a 1)new / 2)registered / 3)permanent customer?:");
+            Console.WriteLine("Are you a 1)new / 2)registered / 3)permanent customer / 4)admin?:");
             int type = int.Parse(Console.ReadLine());
-            if(type < 1 || type > 3)
+            if (type < 1 || type > 4)
             {
                 throw new ArgumentException("Write the correct option!");
             }
-            Console.WriteLine("Enter your password: ");
-            string pass = Console.ReadLine();
+            Console.WriteLine("Enter your name:");
+            string name = Console.ReadLine();
+            foreach (var ch in name)
+            {
+                if (Char.IsDigit(ch))
+                    throw new ArgumentException("Incorrect name");
+            }
+            int age = 0;
+            double sum = 0;
+            if (type < 4)
+            {
+                Console.WriteLine("Enter your age:");
+                age = int.Parse(Console.ReadLine());
+                if (age < 0 || age > 100)
+                    throw new AgeException($"Entered age: {age} is incorrect", age);
+                Console.WriteLine("Enter the sum:");
+                string str = Console.ReadLine();
+                bool isNum = double.TryParse(str, out sum);
+                if (!isNum)
+                {
+                    throw new ArgumentException("The sum must be a number!");
+                }
+                if (sum < 0)
+                    throw new ArgumentException("The sum must be a positive number!");
+            }
+            
             AccountType accountType = 0;
+            string pass = "";
             switch (type)
             {
                 case 1:
@@ -146,14 +256,27 @@ namespace TaxiApplicatiom
                     break;
                 case 2:
                     accountType = AccountType.Registered;
+                    Console.WriteLine("Enter your password: ");
+                    pass = Console.ReadLine();
                     break;
                 case 3:
                     accountType = AccountType.Permanent;
+                    Console.WriteLine("Enter your password: ");
+                    pass = Console.ReadLine();
+                    break;
+                case 4:
+                    accountType = AccountType.Admin;
+                    Console.WriteLine("Enter your password: ");
+                    pass = Console.ReadLine();
                     break;
             }
             try
             {
-                administration.CreateAccount(accountType, sum, age, name, pass);
+                if (type > 0 && type < 4)
+                    administration.CreateAccount(accountType, sum, age, name, pass);
+                else
+                    administration.CreateAccount(accountType, name, pass);
+
             }
             catch(Exception ex)
             {
@@ -239,9 +362,6 @@ namespace TaxiApplicatiom
             administration.SetDuration(duration);
             administration.PayTickets(distance);
             Console.WriteLine($"Ticket price: {administration.Price}");
-
-
-
         }
         private static void DriverInfo(Administration administration)
         { 
@@ -297,16 +417,13 @@ namespace TaxiApplicatiom
                     time = hours[1];
                     break;
             }
-            Console.WriteLine($"You choose {time}");
+            Console.WriteLine($"You chose {time}");
             administration.SetTime(time);
         }
         private static void ShowInfo(Ferryman man, Administration administration)
         {
             Console.WriteLine($"Your driver Name : {man.Name}");
             Console.WriteLine($"Age : {man.Age}");
-            Console.WriteLine($"Working hours : {man.WorkHours}");
-            Console.WriteLine($"Salary : {administration.DriverInfo()}");
-
         }
         private static void Ticket(Administration administration)
         {
@@ -325,8 +442,64 @@ namespace TaxiApplicatiom
             Console.WriteLine($"\nThank you for choosing <{administration.Name}> ");
             Console.WriteLine("==================================================");
             Console.WriteLine("\n");
+        }
+        private static void AdminMenu()
+        {
+            Console.WriteLine("\nHello Admin))))");
+            Console.WriteLine("Choose option from mentioned above" +
+                "\n1)Find out adittional information about drivers" +
+                "\n2)Watch available transports" +
+                "\n3)Watch timetables");
 
+        }
+        private static void MenInfo()
+        {
+            foreach (var men in Administration.men)
+            {
+                Console.WriteLine($"Your driver Name : {men.Name}");
+                Console.WriteLine($"Age : {men.Age}");
+                Console.WriteLine($"Working hours : {men.WorkHours}");
+                Console.WriteLine($"Salary : {men.Salary}");
+                Console.WriteLine("==================================");
+            }
 
+        }
+        private static void TransportInfo()
+        {
+            foreach (var transp in (TransportType[])Enum.GetValues(typeof(TransportType)))
+            {
+                Console.WriteLine(transp);
+            }
+                
+        }
+        private static void WatchTimetables(Administration administration)
+        {
+
+            Dictionary<string, List<int>> diction = new Dictionary<string, List<int>>();
+            using (var sr = new StreamReader("Hours.txt"))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string[] temp = sr.ReadLine().Split();
+                    int temp1 = int.Parse(temp[1]);
+                    int temp2 = int.Parse(temp[2]);
+                    List<int> filedata = new List<int>();
+                    filedata.Add(temp1);
+                    filedata.Add(temp2);
+                    diction.Add(temp[0], filedata);
+
+                }
+            }
+            foreach (KeyValuePair<string, List<int>> keyValue in diction)
+            {
+                //TODO: Norm vuvid
+                Console.Write(keyValue.Key + "     \t");
+                foreach (var item in keyValue.Value)
+                {
+                    Console.Write(item + "      \t");
+                }
+                Console.WriteLine();
+            }
         }
 
     }

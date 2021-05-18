@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaxiLibrary.TransportationData
 {
+    [Serializable]
     public class Ferryman
     {
         public Ferryman(string name, int age, double hours)
