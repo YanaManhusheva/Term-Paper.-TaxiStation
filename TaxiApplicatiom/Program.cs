@@ -45,8 +45,7 @@ namespace TaxiApplicatiom
                         "\n2)Watch routes" +
                         "\n3)Exit" +
                         "\n==================================================");
-                    ChooseLimits(1, 3, "", out option);
-
+                    ChooseLimits(1, 3, "Choose your option", out option);
                     switch (option)
                     {
                         case 1:
@@ -151,7 +150,6 @@ namespace TaxiApplicatiom
                 age = int.Parse(Console.ReadLine());
                 if (age < 0 || age > 100)
                     throw new AgeException($"Entered age: {age} is incorrect", age);
-                Console.WriteLine("Enter the sum:");
                 ChooseLimits(-1, int.MaxValue, "Enter the sum", out sum);
             }
             
@@ -383,7 +381,7 @@ namespace TaxiApplicatiom
                 try
                 {
                     AdminMenu();
-                    ChooseLimits(1, 4,"", out int num);
+                    ChooseLimits(1, 4,"Choose one of the options ", out int num);
                     Console.WriteLine();
                     switch (num)
                     {
