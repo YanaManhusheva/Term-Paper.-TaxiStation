@@ -32,8 +32,6 @@ namespace TaxiLibrary
         Saturday,
         Sunday
     }
-
-
     public class Administration
     {
         static Administration()
