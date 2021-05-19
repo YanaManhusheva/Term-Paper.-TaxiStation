@@ -41,7 +41,7 @@ namespace TaxiApplicatiom
                     Administration administration;
                     Console.WriteLine("====================Menu==========================");
                     Console.WriteLine("Choose what you want to do:" +
-                        "\n1)Buy a ticket" +
+                        "\n1)Plan journey" +
                         "\n2)Watch routes" +
                         "\n3)Exit" +
                         "\n==================================================");
@@ -278,7 +278,7 @@ namespace TaxiApplicatiom
             {
                 Console.Write($"[{i}] \t");
             }
-            ChooseLimits(1, 2, "", out int choice);
+            ChooseLimits(1, 2, "\nChoose one option", out int choice);
             switch (choice)
             {
                 case 1:
