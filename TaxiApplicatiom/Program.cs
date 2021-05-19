@@ -45,12 +45,13 @@ namespace TaxiApplicatiom
                         "\n2)Watch routes" +
                         "\n3)Exit" +
                         "\n==================================================");
-                    ChooseLimits(1, 3, "Choose your option", out option);
+                    IncorrectInput(1, 3, "Choose your option", out option);
+                    con = false;
                     switch (option)
                     {
                         case 1:
                             Console.WriteLine();
-                            administration = new Administration("Forest Group Kyiv");
+                            administration = new Administration("Forest Taxi Kyiv");
                             while (!con)
                             {
                                 try
@@ -64,7 +65,7 @@ namespace TaxiApplicatiom
                                         DriverInfo(administration);
                                         Ticket(administration);
                                         con = true;
-                                        ChooseLimits(1, 2, "Do you wanna watch menu for other options? 1)yes 2)false", out int choice);
+                                        IncorrectInput(1, 2, "Do you wanna watch menu for other options? 1)yes 2)false", out int choice);
                                         if (choice == 1)
                                             next = false;
                                         else
@@ -77,7 +78,7 @@ namespace TaxiApplicatiom
                                     {
                                         AdminMethods(administration, next);
                                         con = true;
-                                        ChooseLimits(1, 2, "\nDo you wanna watch general menu? 1)yes 2)false", out int choice);
+                                        IncorrectInput(1, 2, "\nDo you wanna watch general menu? 1)yes 2)false", out int choice);
                                         if (choice == 1)
                                             next = false;
                                         else
@@ -92,7 +93,7 @@ namespace TaxiApplicatiom
                                     Console.WriteLine(ex.Message);
                                     Console.ResetColor();
                                     Console.WriteLine("============================================");
-                                    ChooseLimits(1, 2, "\nDo you want to try again? 1)yes 2)false", out int choice);
+                                    IncorrectInput(1, 2, "\nDo you want to try again? 1)yes 2)false", out int choice);
                                     if (choice == 1)
                                         con = false;
                                     else
@@ -134,7 +135,7 @@ namespace TaxiApplicatiom
         {
             Console.WriteLine("We are greatfull to see you in our company");
             Console.WriteLine("To create your account please enter some data ");
-            ChooseLimits(1, 4, "Are you a 1)new / 2)registered / 3)permanent customer / 4)admin?:", out int type);
+            IncorrectInput(1, 4, "Are you a 1)new / 2)registered / 3)permanent customer / 4)admin?:", out int type);
             Console.WriteLine("Enter your name:");
             string name = Console.ReadLine();
             foreach (var ch in name)
@@ -150,7 +151,7 @@ namespace TaxiApplicatiom
                 age = int.Parse(Console.ReadLine());
                 if (age < 0 || age > 100)
                     throw new AgeException($"Entered age: {age} is incorrect", age);
-                ChooseLimits(-1, int.MaxValue, "Enter the sum", out sum);
+                IncorrectInput(-1, int.MaxValue, "Enter the sum", out sum);
             }
             
             AccountType accountType = 0;
@@ -185,7 +186,7 @@ namespace TaxiApplicatiom
         private static void ObtainTransport(Administration administration)
         {
             TransportType transportType = 0;
-            ChooseLimits(1,2, "You can choose whether 1)bus or 2)minivan. Which one do you prefer?", out int type);
+            IncorrectInput(1,2, "You can choose whether 1)bus or 2)minivan. Which one do you prefer?", out int type);
             if (type == 1)
                 transportType = TransportType.Bus;
             else
@@ -220,7 +221,7 @@ namespace TaxiApplicatiom
             
             double distance = 0;
             double duration = 0;
-            ChooseLimits(1, 5, "Choose your route", out int num);
+            IncorrectInput(1, 5, "Choose your route", out int num);
             if (num<1 || num > 5)
             {
                 throw new ArgumentException("Write the correct option!");
@@ -255,7 +256,7 @@ namespace TaxiApplicatiom
         }
         private static void DriverInfo(Administration administration)
         { 
-            ChooseLimits(1, 2, "Do you want to read additional information about your driver? 1)yes / 2)no", out int choice);
+            IncorrectInput(1, 2, "Do you want to read additional information about your driver? 1)yes / 2)no", out int choice);
             if(choice == 1)
             {
                 administration.DriverInfo();
@@ -266,7 +267,7 @@ namespace TaxiApplicatiom
         }
         private static void ChooseDate(Administration administration)
         {
-            ChooseLimits(1, 7, "Enter the appropriate for you day(from 1 to 7):" +
+            IncorrectInput(1, 7, "Enter the appropriate for you day(from 1 to 7):" +
                 "\nConsider that buses only drive on odd days, while minivans only on even days", out int num);
             Console.WriteLine($"[{administration.ChooseDate(num)}]");
 
@@ -278,7 +279,7 @@ namespace TaxiApplicatiom
             {
                 Console.Write($"[{i}] \t");
             }
-            ChooseLimits(1, 2, "\nChoose one option", out int choice);
+            IncorrectInput(1, 2, "\nChoose one option", out int choice);
             switch (choice)
             {
                 case 1:
@@ -381,7 +382,7 @@ namespace TaxiApplicatiom
                 try
                 {
                     AdminMenu();
-                    ChooseLimits(1, 4,"Choose one of the options ", out int num);
+                    IncorrectInput(1, 4,"Choose one of the options ", out int num);
                     Console.WriteLine();
                     switch (num)
                     {
@@ -403,7 +404,7 @@ namespace TaxiApplicatiom
                     if(num>0 && num < 4)
                     {
 
-                        ChooseLimits(1, 2, "Do you wanna watch menu for other options? 1)yes 2)false", out int choice);
+                        IncorrectInput(1, 2, "Do you wanna watch menu for other options? 1)yes 2)false", out int choice);
                         if (choice == 1)
                             con = false;
                         else
@@ -424,7 +425,7 @@ namespace TaxiApplicatiom
                     Console.WriteLine(ex.Message);
                     Console.ResetColor();
                     Console.WriteLine("============================================");
-                    ChooseLimits(1, 2, "Do you want to try again? 1)yes 2)false", out int choice);
+                    IncorrectInput(1, 2, "Do you want to try again? 1)yes 2)false", out int choice);
                     if (choice == 1)
                         con = false;
                     else
@@ -433,11 +434,11 @@ namespace TaxiApplicatiom
                 Console.ResetColor();
             }
         }
-        static void ChooseLimits(int low, int high, string message, out int choose)
+        static void IncorrectInput(int low, int high, string message, out int choose)
         {
             do
             {
-                ChooseOption(out choose, message);
+                IncorrectNum(out choose, message);
                 if (choose < low || choose > high)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -447,7 +448,7 @@ namespace TaxiApplicatiom
 
             } while (choose < low || choose > high);
         }
-        static void ChooseOption(out int choose, string message)
+        static void IncorrectNum(out int choose, string message)
         {
             Console.WriteLine(message);
             while (!int.TryParse(Console.ReadLine(), out choose))

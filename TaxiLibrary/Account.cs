@@ -22,7 +22,7 @@ namespace TaxiLibrary
             }
             else
             {
-                throw new ArgumentException($"There is not enough money on New account. You need to pay {sum }");
+                throw new ArgumentException($"There is not enough money on account. You need to pay {sum }");
             }
             return sum;
         }

@@ -102,7 +102,6 @@ namespace TaxiLibrary
             Price = newTransp.TicketPrice(newAcc, distance);
             Price = newAcc.Pay(Price);
 
-
         }
         static void ShowEvent(object sender, AccountEventArgs e)
         {
