@@ -9,31 +9,25 @@ namespace TaxiLibrary.TransportationData
     [Serializable]
     public class Ferryman
     {
-        public Ferryman(string name, int age, double hours)
+        public Ferryman(string name, int age)
         {
             Name = name;
             Age = age;
-            WorkHours = hours;
+           
         }
 
         public decimal CalculateSalary()
         {
-            if (WorkHours < 0 || WorkHours > 220)
-                throw new ArgumentException("Working hours are incorrect");
-
-            if (WorkHours >= 198 || WorkHours < 220)
-                Salary = Convert.ToDecimal(WorkHours * 90);
-            if (WorkHours >= 110 || WorkHours < 198)
-                Salary = Convert.ToDecimal(WorkHours * 80);
-            else
-                Salary = Convert.ToDecimal(WorkHours * 60);
+            Salary =(decimal)(WorkHours / WorkDays) * 30 * 55;    //55 - сер знач за 1 год роботи
             return Salary;
         }
-       
-        public decimal Salary { get; private set; }
+
+        public decimal Salary { get; private set; } 
         public string Name { get; private set; }
         public int Age { get; private set; }
-        public double WorkHours { get; private set; }
+        public int WorkDays { get; set; }
+
+        public double WorkHours { get; set; } 
     }
 
 }

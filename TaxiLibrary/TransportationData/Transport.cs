@@ -21,7 +21,7 @@ namespace TaxiLibrary.BusData
             }
             return JourneyCost;
         }
-        public abstract void CreateDriver(List<int> hours, int Time);
+        public abstract Ferryman CreateDriver(List<int> hours, int Time, List<Ferryman> men);
         public virtual decimal DriverSalary()
         {
             decimal salary = 10000;
@@ -38,12 +38,13 @@ namespace TaxiLibrary.BusData
         public Bus(string _type) : base(_type)
         {
         }
-        public override void CreateDriver(List<int> hours, int Time)
+        public override Ferryman CreateDriver(List<int> hours, int Time, List<Ferryman> men)
         {
             if (Time == hours[0])
-                man = new Ferryman("Sasha", 24, 160);
+                man = men.ElementAt(0);
             else
-                man = new Ferryman("Oleg", 39, 200);
+                man = men.ElementAt(1);
+            return man;
         }
         public override decimal DriverSalary()
         {
@@ -70,12 +71,13 @@ namespace TaxiLibrary.BusData
         {
         }
 
-        public override void CreateDriver(List<int> hours, int Time)
+        public override Ferryman CreateDriver(List<int> hours, int Time, List<Ferryman> men)
         {
             if (Time == hours[0])
-                man = new Ferryman("Nazar", 29, 174);
+                man = men.ElementAt(2);
             else
-                man = new Ferryman("Ivan", 48, 110);
+                man = men.ElementAt(3);
+            return man;
         }
         public override decimal DriverSalary()
         {

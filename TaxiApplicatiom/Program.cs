@@ -19,14 +19,10 @@ namespace TaxiApplicatiom
         {
             #region
             //List<Ferryman> men = new List<Ferryman>();
-            //men.Add(new Ferryman("Sasha", 24, 160));
-            //men.Add(new Ferryman("Oleg", 39, 200));
-            //men.Add(new Ferryman("Nazar", 29, 174));
-            //men.Add(new Ferryman("Ivan", 48, 110));
-            //foreach (var man in men)
-            //{
-            //    man.CalculateSalary();
-            //}
+            //men.Add(new Ferryman("Sasha", 24));
+            //men.Add(new Ferryman("Oleg", 39));
+            //men.Add(new Ferryman("Nazar", 29));
+            //men.Add(new Ferryman("Ivan", 48));
             //var formatter = new BinaryFormatter();
             //using (var fs = new FileStream("Ferryman.txt", FileMode.OpenOrCreate))
             //{
@@ -34,7 +30,7 @@ namespace TaxiApplicatiom
             //}
             #endregion
             bool next = false;
-            int option=0;
+            int option = 0;
             bool con = false;
             while (!next)
             {
@@ -250,7 +246,9 @@ namespace TaxiApplicatiom
                     duration = dict2["Bukovel"];
                     break;
             }
+            administration.DriverInfo();
             administration.SetDuration(duration);
+
             administration.PayTickets(distance);
             Console.WriteLine($"Ticket price: {administration.Price}");
         }
@@ -259,7 +257,7 @@ namespace TaxiApplicatiom
             IncorrectInput(1, 2, "Do you want to read additional information about your driver? 1)yes / 2)no", out int choice);
             if(choice == 1)
             {
-                administration.DriverInfo();
+                //administration.DriverInfo();
                 MyDelegate mydel = ShowInfo;;
                 mydel?.Invoke(administration.newTransp.man, administration);
 

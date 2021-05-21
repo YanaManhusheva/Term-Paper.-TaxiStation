@@ -188,23 +188,28 @@ namespace TaxiLibrary
             }
             return hours.ToList();
         }
-        public decimal DriverInfo()
+        public void DriverInfo()
         {
             decimal salary;
             if (newTransp is Bus)
             {
-                newTransp.CreateDriver(hours, Time);
-                salary = newTransp.DriverSalary();
+                newMan = newTransp.CreateDriver(hours, Time, men);
+               
             }
             else
             {
-                newTransp.CreateDriver(hours, Time);
-                salary = newTransp.DriverSalary();
+                newMan = newTransp.CreateDriver(hours, Time, men);
+                
             }
 
-            return salary;
-
         }
+        public decimal DriveSalary()
+        {
+            decimal salary;
+            salary = newTransp.DriverSalary();
+            return salary;
+        }
+
         public void SetTime(int time)
         {
             Time = time;
@@ -212,6 +217,10 @@ namespace TaxiLibrary
         public void SetDuration(double dur)
         {
             Duration = dur;
+            newMan.WorkHours += dur;
+            newMan.WorkDays += 1;
+            DriveSalary();
+            SaveFerrymen();
         }
 
         private static List <Ferryman> FerrymanDataFile()
@@ -229,9 +238,18 @@ namespace TaxiLibrary
                 return null;
             }
         }
+        private static void SaveFerrymen()
+        {
+            var formatter = new BinaryFormatter();
+            using (var fs = new FileStream("Ferryman.txt", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, men);
+            }
+        }
         
         public AdminAccount newAdmin { get; private set; }
         public Account newAcc { get; private set; }
+        public Ferryman newMan { get; private set; }
         public bool IsAdmin { get; private set; }=false;
         public Transport newTransp { get; private set; }
         public double Duration { get; private set; }
