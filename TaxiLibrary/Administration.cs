@@ -190,16 +190,13 @@ namespace TaxiLibrary
         }
         public void DriverInfo()
         {
-            decimal salary;
             if (newTransp is Bus)
             {
                 newMan = newTransp.CreateDriver(hours, Time, men);
-               
             }
             else
             {
-                newMan = newTransp.CreateDriver(hours, Time, men);
-                
+                newMan = newTransp.CreateDriver(hours, Time, men); 
             }
 
         }
