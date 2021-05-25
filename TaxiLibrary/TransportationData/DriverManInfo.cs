@@ -18,7 +18,7 @@ namespace TaxiLibrary.TransportationData
 
         public decimal CalculateSalary()
         {
-            Salary =(decimal)(WorkHours / WorkDays) * 30 * 55;  
+            Salary =(decimal)(WorkHours / WorkDays) * 30 * 65;  
             return Salary;
         }
 

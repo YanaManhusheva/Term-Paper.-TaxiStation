@@ -330,6 +330,7 @@ namespace TaxiApplicatiom
                 Console.WriteLine($"Your driver Name : {men.Name}");
                 Console.WriteLine($"Age : {men.Age}");
                 Console.WriteLine($"Working hours : {men.WorkHours}");
+                Console.WriteLine($"Working days : {men.WorkDays}");
                 Console.WriteLine($"Salary : {men.Salary}");
                 Console.WriteLine("==================================");
             }
